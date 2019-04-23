@@ -11,12 +11,12 @@ pipeline {
         stage('Cloning Git') {
             steps {
                 git "${params.repository_url}"
-                git checkout Docker_br
             }
         }
         stage('Checking repository'){
             steps {
                     sh """
+                    git checkout Docker_br
                     pwd
                     ls -l
                     whoami
