@@ -4,19 +4,22 @@ pipeline {
     }
     parameters {
         string(name: 'repository_url', defaultValue: 'git@github.com:ZikFred/PROJECT.git', description: 'Github repository url')
+        choice(name: 'repository_branch', choices: ['master', 'Jenkins_br', 'Docker_br'], description: 'Choice branch')
         booleanParam(name: 'remove', defaultValue: false, description: 'Remove Buiild package')
     }
     agent any
     stages {
         stage('Cloning Git') {
             steps {
-                git "${params.repository_url}"
+                git url: "${params.repository_url}", branch: "${params.repository_branch}"
             }
         }
         stage('Checking repository'){
             steps {
                     sh """
+                    git branch
                     git checkout Docker_br
+                    git branch
                     pwd
                     ls -l
                     whoami
