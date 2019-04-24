@@ -38,11 +38,13 @@ pipeline {
                    docker push $registry:$BUILD_NUMBER
                    """
             }
-        stage('Run Docker Container')
+        }
+        stage('Run Docker Container') {
             steps {
                 sh "docker run $registry:$BUILD_NUMBER"
             }
-        stage('Check Conteiner')
+        }
+        stage('Check Conteiner') {
             steps {
                 sh "docker ps -a"
             }
