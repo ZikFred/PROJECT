@@ -41,7 +41,7 @@ pipeline {
         }
         stage('Run Docker Container') {
             steps {
-                sh "docker run $registry:$BUILD_NUMBER"
+                sh "docker run -it $registry:$BUILD_NUMBER"
             }
         }
         stage('Check Conteiner') {
