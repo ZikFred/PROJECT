@@ -38,6 +38,14 @@ pipeline {
                    docker push $registry:$BUILD_NUMBER
                    """
             }
+        stage('Run Docker Container')
+            steps {
+                sh "docker run $registry:$BUILD_NUMBER"
+            }
+        stage('Check Conteiner')
+            steps {
+                sh "docker ps -a"
+            }
         }
         stage('Remove Unused docker image') {
             when {
