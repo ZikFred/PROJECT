@@ -1,0 +1,29 @@
+---
+- name: "Install all"
+  hosts: UBUNTU_WS
+  become: yes
+  roles:
+    - docker
+    - jenkins
+
+- name: "KEY"
+  hosts: UBUNTU_WS
+  gather_facts: false 
+  become: yes
+  tasks:
+   - name: Create folder
+     file:
+       path: /var/lib/jenkins/.ssh
+       mode: 0755
+       owner: jenkins
+       group: jenkins
+       state: directory
+
+   - name: "Copy key"
+     copy: 
+       src: "~/.ssh/id_rsa"
+       dest: "/var/lib/jenkins/.ssh/id_rsa"
+       owner: jenkins
+       group: jenkins
+       mode: 0400
+

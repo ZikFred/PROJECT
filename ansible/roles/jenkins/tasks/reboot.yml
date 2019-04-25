@@ -1,0 +1,13 @@
+---
+- hosts: all
+  sudo: yes
+  tasks:
+ 
+  - name: Reboot host
+    command: shutdown -r now "Ansible system reboot"
+    async: 0
+    poll: 0
+  - name: Wait for the host to finish rebooting
+    local_action: wait_for host={{ inventory_hostname }} state=started
+    sudo: false
+
