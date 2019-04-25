@@ -1,7 +1,6 @@
 pipeline {
     environment {
         registry = "agarim999/docker_test_repo"
-        date = "date +%Y-%m-%d-%H"
     }
     parameters {
         string(name: 'repository_url', defaultValue: 'git@github.com:ZikFred/PROJECT.git', description: 'Github repository url')
@@ -29,20 +28,20 @@ pipeline {
         }
         stage('Building image') {
             steps {
-                sh "docker build --tag $registry:$BUILD_NUMBER_$date ."
+                sh "docker build --tag $registry:$BUILD_ID ."
             }
         }
         stage('Deploy Image') {
             steps{
                    sh """
                    docker login -u agarim999 -p 789632145Zik*-+
-                   docker push $registry:$BUILD_NUMBER_$date
+                   docker push $registry:$BUILD_ID
                    """
             }
         }
         stage('Run Docker Container') {
             steps {
-                sh "docker run -id $registry:$BUILD_NUMBER_$date"
+                sh "docker run -id $registry:$BUILD_ID"
             }
         }
         stage('Check Conteiner') {
@@ -55,7 +54,7 @@ pipeline {
                 expression {params.remove == true}
             }
             steps {
-                sh "docker rmi $registry:$BUILD_NUMBER_$date"
+                sh "docker rmi $registry:$BUILD_ID"
             }
         }
     }
