@@ -29,20 +29,20 @@ pipeline {
         }
         stage('Building image') {
             steps {
-                sh "docker build --tag $registry:$BUILD_NUMBER-$date ."
+                sh "docker build --tag $registry:$BUILD_NUMBER-$BUILD_ID ."
             }
         }
         stage('Deploy Image') {
             steps{
                    sh """
                    docker login -u agarim999 -p 789632145Zik*-+
-                   docker push $registry:$BUILD_NUMBER-$date
+                   docker push $registry:$BUILD_NUMBER-$BUILD_ID
                    """
             }
         }
         stage('Run Docker Container') {
             steps {
-                sh "docker run -id $registry:$BUILD_NUMBER-$date"
+                sh "docker run -id $registry:$BUILD_NUMBER-$BUILD_ID"
             }
         }
         stage('Check Conteiner') {
@@ -55,7 +55,7 @@ pipeline {
                 expression {params.remove == true}
             }
             steps {
-                sh "docker rmi $registry:$BUILD_NUMBER-$date"
+                sh "docker rmi $registry:$BUILD_NUMBER-$BUILD_ID"
             }
         }
     }
