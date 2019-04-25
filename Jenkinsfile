@@ -1,6 +1,7 @@
 pipeline {
     environment {
         registry = "agarim999/docker_test_repo"
+        date = "date +%Y-%m-%d-%H"
     }
     parameters {
         string(name: 'repository_url', defaultValue: 'git@github.com:ZikFred/PROJECT.git', description: 'Github repository url')
@@ -35,7 +36,7 @@ pipeline {
             steps{
                    sh """
                    docker login -u agarim999 -p 789632145Zik*-+
-                   docker push $registry:$BUILD_NUMBER
+                   docker push $registry_$date:$BUILD_NUMBER
                    """
             }
         }
