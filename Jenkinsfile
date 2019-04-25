@@ -28,20 +28,20 @@ pipeline {
         }
         stage('Building image') {
             steps {
-                sh "docker build --tag $registry:$BUILD_NUMBER-$GIT_AUTHOR_NAME ."
+                sh "docker build --tag $registry:$BUILD_NUMBER-$GIT_COMMIT ."
             }
         }
         stage('Deploy Image') {
             steps{
                    sh """
                    docker login -u agarim999 -p 789632145Zik*-+
-                   docker push $registry:$BUILD_NUMBER-$GIT_AUTHOR_NAME
+                   docker push $registry:$BUILD_NUMBER-$GIT_COMMIT
                    """
             }
         }
         stage('Run Docker Container') {
             steps {
-                sh "docker run -id $registry:$BUILD_NUMBER-$GIT_AUTHOR_NAME"
+                sh "docker run -id $registry:$BUILD_NUMBER-$GIT_COMMIT"
             }
         }
         stage('Check Conteiner') {
@@ -54,7 +54,7 @@ pipeline {
                 expression {params.remove == true}
             }
             steps {
-                sh "docker rmi $registry:$BUILD_NUMBER-$GIT_AUTHOR_NAME"
+                sh "docker rmi $registry:$BUILD_NUMBER-$GIT_COMMIT"
             }
         }
     }
